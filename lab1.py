@@ -24,12 +24,12 @@ class SteganalysisBlackBox:
 
     def process(
         self,
-        jpeg_quality: int,
-        embedding_percent: float,
-        distance: str,
-        feature_vector: str,
-        train_size: int,
-        algorithm: str,
+        jpeg_quality: int,              # качество изображения
+        embedding_percent: float,       # стегановложение
+        distance: str,                  # расстояние
+        feature_vector: str,            # вектор признаков
+        train_size: int,                # размер выборки
+        algorithm: str,                 # стеганоалгоритм
     ) -> Result:
         errors: list[str] = []
         if jpeg_quality not in self.JPEG_QF:
@@ -83,6 +83,10 @@ class MatrixBlackBox:
     """
 
     def process(self, family: str, t: int, d: int) -> Result:
+        """
+        t - размер матрицы
+        d - определяет диагональные значения
+        """
         errors: list[str] = []
         if family not in {"Один 4t-1", "Один 4t-3"}:
             errors.append("Выберите тип матрицы Одина.")
