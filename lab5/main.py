@@ -1,7 +1,3 @@
-"""Лабораторная работа №5. Оптимизация производственного плана (ЛП), вариант 6.
-Tkinter + SciPy (HiGHS) + Matplotlib.  Запуск: python lab5_lp_gui.py
-Зависимости: pip install scipy matplotlib numpy
-"""
 import tkinter as tk
 from tkinter import ttk, messagebox
 
@@ -23,7 +19,7 @@ EPS = 1e-6
 
 
 def solve_lp(c, A, b):
-    """max c·x  при A x <= b, x >= 0. Возвращает словарь с результатом."""
+    """max c*x  при A x <= b, x >= 0. Возвращает словарь с результатом."""
     c, A, b = np.array(c, float), np.array(A, float), np.array(b, float)
     res = linprog(-c, A_ub=A, b_ub=b, bounds=[(0, None)] * len(c), method="highs")
     out = {"status": res.status, "message": res.message}
@@ -45,7 +41,7 @@ STATUS_TEXT = {
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Лаб. работа №5. Оптимизация производственного плана (вариант 6)")
+        self.title("Лаб. работа №5. Оптимизация производственного плана")
         self.minsize(1100, 720)
         self.columnconfigure(1, weight=1)
         self.rowconfigure(0, weight=1)
@@ -64,7 +60,7 @@ class App(tk.Tk):
         self._build_results(right)
         self.reset()
 
-    # ---------- ввод ----------
+    # ввод 
     @staticmethod
     def _validate_key(new):
         if new == "":
@@ -141,7 +137,7 @@ class App(tk.Tk):
         A = [[num(self.a_e[i][j], f"норма a{i+1}{j+1}") for j in range(N)] for i in range(M)]
         return c, A, b
 
-    # ---------- вывод ----------
+    # вывод
     def _build_results(self, f):
         box = ttk.LabelFrame(f, text="Результаты", padding=6)
         box.grid(row=0, column=0, sticky="ew")
@@ -198,7 +194,7 @@ class App(tk.Tk):
                       f"{max(r['left'][i], 0):.2f}",
                       ("ДЕФИЦИТ" if deficit else "ИЗБЫТОК") + f" (y={r['duals'][i]:.4f})")
 
-        self._row("АНАЛИЗ ЧУВСТВИТЕЛЬНОСТИ (Δ F при изменении запаса)", "", "", "", "", tag="head")
+        self._row("Анализ чувствительности (delta F при изменении запаса)", "", "", "", "", tag="head")
         for i in range(M):
             cells = []
             for k in (-0.1, 0.1):
@@ -222,7 +218,7 @@ class App(tk.Tk):
         self.ax.set_xticks(x)
         self.ax.set_xticklabels([f"Материал S{i+1}" for i in range(M)])
         self.ax.set_ylabel("Количество, кг")
-        self.ax.set_title("Анализ использования материалов (вариант 6)")
+        self.ax.set_title("Анализ использования материалов ")
         self.ax.legend()
         self.fig.tight_layout()
         self.canvas.draw()
